@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daily Focus Planner - Ashish Ranjan</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.ico" />
+
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container">
+            <h1>Daily Focus Planner</h1>
+
+            <div class="controls">
+                <!-- Prev day -->
+                <button id="prevDayBtn" class="circle" title="Previous day" aria-label="Previous day">‹</button>
+
+                <!-- Date input + pretty text overlay -->
+                <div class="date-wrap">
+                    <label for="planDate" class="sr-only">Select Date</label>
+                    <input type="date" id="planDate" />
+                    <span id="datePretty" aria-hidden="true"></span>
+                </div>
+
+                <!-- Next day -->
+                <button id="nextDayBtn" class="circle" title="Next day" aria-label="Next day">›</button>
+
+                <button id="printBtn" title="Print the plan">Print</button>
+                <button id="resetBtn" class="danger" title="Clear this day">Reset Day</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="grid">
+            <!-- Left: Tasks -->
+            <section class="card">
+                <div class="card-head">
+                    <h2>Tasks</h2>
+                    <button id="addTaskBtn" class="ghost" title="Add a new task">+ Add Task</button>
+                </div>
+                <p class="muted">Add as many tasks as you need. Check when done.</p>
+                <div class="task-list" id="taskList"></div>
+            </section>
+
+            <!-- Right: Time blocks -->
+            <section class="card">
+                <h2>Time Blocks</h2>
+                <p class="muted">Block your day in half-hours. Keep buffers.</p>
+                <div id="timeBlocks" class="timeblocks"></div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="container footer">
+        <small class="muted">&copy; 2025 | By <a href="https://www.ashishranjan.net" target="_blank">Ashish
+                Ranjan</a></small>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

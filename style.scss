@@ -1,0 +1,358 @@
+/* === variables & base === */
+$bg: #0b0b0b;
+$card: #141414;
+$text: #e9e9e9;
+$muted: #bdbdbd;
+$accent: #22c55e;
+$danger: #ef4444;
+$border: #242424;
+$radius: 14px;
+$shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+$space-1: 6px;
+$space-2: 10px;
+$space-3: 16px;
+$space-4: 24px;
+$space-5: 32px;
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans";
+    color: $text;
+    background: $bg;
+    line-height: 1.45;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 $space-3;
+}
+
+.topbar {
+    border-bottom: 1px solid $border;
+    background: #0e0e0e;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $space-3 0;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .controls {
+        display: flex;
+        gap: $space-2;
+        align-items: center;
+
+        /* round nav buttons */
+        .circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            background: #1a1a1a;
+            color: $text;
+            border: 1px solid $border;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            line-height: 1;
+
+            &:hover {
+                border-color: lighten($border, 10%);
+            }
+        }
+
+        /* date field with pretty overlay */
+        .date-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+
+            input[type="date"] {
+                background: $card;
+                color: transparent;
+                /* hide raw text */
+                caret-color: transparent;
+                /* caret invisible */
+                border: 1px solid $border;
+                padding: $space-2 $space-3;
+                border-radius: $radius;
+                outline: none;
+                min-width: 170px;
+
+                /* space for "Sep 20, 2025" */
+                /* Make native calendar icon white on Chromium/WebKit */
+                &::-webkit-calendar-picker-indicator {
+                    filter: invert(1) brightness(1.2);
+                    opacity: 0.95;
+                }
+            }
+
+            /* pretty text on top of hidden input value */
+            #datePretty {
+                position: absolute;
+                left: $space-3;
+                right: $space-3;
+                color: $text;
+                white-space: nowrap;
+                pointer-events: none;
+                font-size: 14px;
+            }
+        }
+
+        button {
+            padding: $space-2 $space-3;
+            border-radius: $radius;
+            border: 1px solid $border;
+            background: $card;
+            color: $text;
+            cursor: pointer;
+
+            &:hover {
+                border-color: lighten($border, 10%);
+            }
+
+            &.danger {
+                border-color: rgba($danger, .4);
+                color: $danger;
+            }
+        }
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: $space-4;
+    margin: $space-4 0;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: $card;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    padding: $space-4;
+
+    h2 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .muted {
+        color: $muted;
+        margin: $space-2 0 $space-3 0;
+        font-size: 14px;
+    }
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-2;
+}
+
+button.ghost {
+    padding: $space-2 $space-3;
+    background: #1a1a1a;
+    border: 1px dashed $border;
+    border-radius: $radius;
+    color: $text;
+    cursor: pointer;
+
+    &:hover {
+        border-color: lighten($border, 10%);
+    }
+}
+
+.task-list {
+    display: grid;
+    gap: $space-2;
+}
+
+.task-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: $space-2;
+    align-items: center;
+    padding: $space-2;
+    border: 1px dashed $border;
+    border-radius: $radius;
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: $space-2 $space-3;
+        background: #1a1a1a;
+        color: $text;
+        border: 1px solid $border;
+        border-radius: $radius;
+        outline: none;
+
+        &:focus {
+            border-color: $accent;
+            box-shadow: 0 0 0 3px rgba($accent, .15);
+        }
+    }
+
+    .del {
+        background: #1a1a1a;
+        border: 1px solid $border;
+        border-radius: $radius;
+        padding: 6px 10px;
+        color: $muted;
+        cursor: pointer;
+
+        &:hover {
+            color: #fff;
+            border-color: lighten($border, 10%);
+        }
+    }
+}
+
+/* half-hour pairs per row */
+.timeblocks {
+    display: grid;
+    gap: $space-2;
+}
+
+.time-row {
+    display: grid;
+    grid-template-columns: 84px 1fr 84px 1fr;
+    gap: $space-2;
+    align-items: stretch;
+
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #121212;
+        border: 1px solid $border;
+        color: $muted;
+        border-radius: $radius;
+        font-size: 13px;
+        padding: $space-2;
+        min-height: 44px;
+        text-align: center;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 44px;
+        resize: vertical;
+        background: #1a1a1a;
+        color: $text;
+        padding: $space-2 $space-3;
+        border: 1px solid $border;
+        border-radius: $radius;
+        outline: none;
+
+        &:focus {
+            border-color: $accent;
+            box-shadow: 0 0 0 3px rgba($accent, .15);
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .time-row {
+        grid-template-columns: 70px 1fr 70px 1fr;
+    }
+}
+
+.footer {
+    padding-bottom: $space-5;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* print */
+@media print {
+
+
+    .topbar,
+    .footer,
+    #addTaskBtn,
+    .del {
+        display: none !important;
+    }
+
+    .topbar {
+        color: #fff;
+    }
+
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    .card {
+        border-color: #ddd;
+        box-shadow: none;
+    }
+
+    .task-row,
+    .time-row label,
+    .time-row textarea {
+        border-color: #ccc;
+    }
+
+    .card-head {
+        h2 {
+            color: #fff;
+        }
+    }
+
+    .card {
+        h2 {
+            color: #fff;
+        }
+    }
+}
