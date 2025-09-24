@@ -2,6 +2,8 @@
 
 Simple day planner with unlimited tasks and half-hour time blocks. Autosaves per date. Print-ready.
 
+![alt text](<Screenshot 2025-09-24 142845.png>)
+
 ## Live
 
 -   **Demo:** https://a2rp.github.io/daily-focus-planner/
