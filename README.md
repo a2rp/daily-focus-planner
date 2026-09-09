@@ -39,4 +39,13 @@ sass --watch style.scss:style.css
 # Data saves locally; Print -> Save as PDF when needed.
 ```
 
+## Deploy to GitHub Pages
+
+```bash
+npm install
+npm run deploy
+```
+
+The published site is available at https://a2rp.github.io/daily-focus-planner/.
+
 ## Built with HTML + SCSS + JavaScript. No backend.

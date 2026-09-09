@@ -44,7 +44,6 @@ body {
   gap: 10px;
   align-items: center;
   /* round nav buttons */
-  /* date field with pretty overlay */
 }
 .topbar .controls .circle {
   width: 36px;
@@ -63,11 +62,13 @@ body {
 .topbar .controls .circle:hover {
   border-color: rgb(61.5, 61.5, 61.5);
 }
+.topbar .controls {
+  /* date field with pretty overlay */
+}
 .topbar .controls .date-wrap {
   position: relative;
   display: inline-flex;
   align-items: center;
-  /* pretty text on top of hidden input value */
 }
 .topbar .controls .date-wrap input[type=date] {
   background: #141414;
@@ -86,6 +87,9 @@ body {
 .topbar .controls .date-wrap input[type=date]::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(1.2);
   opacity: 0.95;
+}
+.topbar .controls .date-wrap {
+  /* pretty text on top of hidden input value */
 }
 .topbar .controls .date-wrap #datePretty {
   position: absolute;
@@ -303,4 +307,95 @@ button.ghost:hover {
   .card h2 {
     color: #fff;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+
+/* Modern visual refresh */
+:root {
+  --bg: #070b12;
+  --surface: #101722;
+  --surface-strong: #151f2d;
+  --line: rgba(148, 163, 184, 0.18);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --accent-strong: #2563eb;
+  --danger: #fb7185;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background:
+    radial-gradient(circle at 10% -10%, rgba(37, 99, 235, 0.22), transparent 34rem),
+    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.12), transparent 28rem),
+    var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.topbar {
+  background: rgba(7, 11, 18, 0.86);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+}
+
+.topbar h1 { letter-spacing: -0.03em; }
+.brand p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
+.topbar p, .muted, .footer { color: var(--muted); }
+.container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+
+button, input, textarea { font: inherit; }
+button { transition: transform .18s ease, background .18s ease, border-color .18s ease; }
+button:hover { transform: translateY(-1px); }
+
+.btn {
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 13px;
+}
+.btn:hover { border-color: rgba(96, 165, 250, .7); background: #1b2a40; }
+.btn.primary { background: var(--accent-strong); border-color: var(--accent); }
+.btn.danger { color: #fecdd3; border-color: rgba(251, 113, 133, .35); }
+
+.card {
+  background: linear-gradient(145deg, rgba(21, 31, 45, .96), rgba(11, 17, 27, .96));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .22);
+}
+.card-head { border-bottom: 1px solid var(--line); }
+.card-head h2, .card h2 { color: var(--text); }
+
+input, textarea, select {
+  background: rgba(2, 6, 23, .62);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+input:focus, textarea:focus, select:focus {
+  outline: 3px solid rgba(96, 165, 250, .18);
+  border-color: var(--accent);
+}
+.task-row { border-color: var(--line); background: rgba(15, 23, 42, .58); }
+.task-row:hover { border-color: rgba(96, 165, 250, .55); }
+.del { color: var(--danger); }
+.time-row label { background: rgba(15, 23, 42, .82); border-color: var(--line); color: var(--muted); }
+.time-row textarea { background: rgba(2, 6, 23, .58); border-color: var(--line); }
+
+@media (max-width: 680px) {
+  .container { width: min(100% - 20px, 1120px); }
+  .topbar .container { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .toolbar, .date-nav { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  .time-row { grid-template-columns: 62px 1fr; }
+  .time-row > :nth-child(3), .time-row > :nth-child(4) { grid-column: 1 / -1; }
+  .time-row > :nth-child(3) { margin-top: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+/*# sourceMappingURL=style.css.map */
