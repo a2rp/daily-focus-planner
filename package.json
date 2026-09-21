@@ -4,7 +4,7 @@
   "private": true,
   "description": "A focused daily planner built with HTML, CSS, and JavaScript.",
   "scripts": {
-    "deploy": "gh-pages -d ."
+    "deploy": "npx --yes gh-pages -d . -b gh-pages"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
