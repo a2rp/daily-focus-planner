@@ -13,6 +13,10 @@ const resetBtn = document.getElementById("resetBtn");
 const printBtn = document.getElementById("printBtn");
 const prevDayBtn = document.getElementById("prevDayBtn");
 const nextDayBtn = document.getElementById("nextDayBtn");
+const currentYearEl = document.getElementById("currentYear");
+const topBtn = document.getElementById("topBtn");
+
+if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
 // Hours: 06:00..21:30 (22 exclusive)
 const dayStartHour = 6;
@@ -185,6 +189,7 @@ printBtn.addEventListener("click", () => window.print());
 
 prevDayBtn.addEventListener("click", () => shiftDay(-1));
 nextDayBtn.addEventListener("click", () => shiftDay(1));
+topBtn?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 function shiftDay(delta) {
     const d = new Date(`${dateInput.value}T00:00:00`);
