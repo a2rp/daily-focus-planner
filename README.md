@@ -1,54 +1,29 @@
 # Daily Focus Planner
 
-Simple day planner with unlimited tasks and half-hour time blocks. Autosaves per date. Print-ready.
+A focused static planner for managing daily tasks and half-hour time blocks. Data is saved in the browser by date, so the app works without a backend.
 
-![alt text](<Screenshot 2025-09-24 142845.png>)
-
-## Live
-
--   **Demo:** https://a2rp.github.io/daily-focus-planner/
-
-## Repo
-
--   **Git:** https://github.com/a2rp/daily-focus-planner
+![Daily Focus Planner screenshot](screenshot.png)
 
 ## Features
 
--   Unlimited **Tasks** (checkable, deletable)
--   **Half-hour** time blocks (06:00–21:30) on one line per hour
--   **Prev / Next** day navigation + native date picker
--   **Autosave** (localStorage) per day
--   **Print** clean layout (Save as PDF)
+- Date-based tasks with local storage autosave
+- Checkable and removable tasks
+- Half-hour planning blocks from morning to evening
+- Previous and next day navigation with a date picker
+- Print-ready layout, responsive header, and go-to-top control
 
-## Quick Start
+## Tech stack
 
-```bash
-# 1) Clone
-git clone https://github.com/a2rp/daily-focus-planner.git
-cd daily-focus-planner
+HTML, CSS, SCSS, and JavaScript.
 
-# 2) (Option A) Just open
-# Open index.html in your browser or use VS Code Live Server
+## Run locally
 
-# 2) (Option B) Work with SCSS (if you edit styles)
-# Install Sass once:  npm i -g sass
-sass --watch style.scss:style.css
-
-# 3) Use it
-# Pick a date, add tasks, fill time blocks.
-# Data saves locally; Print -> Save as PDF when needed.
-```
-
-## Deploy to GitHub Pages
+Open `index.html` in a browser or use any local static server.
 
 ```bash
 npm install
 npm run deploy
 ```
-
-The published site is available at https://a2rp.github.io/daily-focus-planner/.
-
-## Built with HTML + SCSS + JavaScript. No backend.
 
 ## Links
 
@@ -63,24 +38,5 @@ The published site is available at https://a2rp.github.io/daily-focus-planner/.
 ## Support
 
 - Support: [https://a2rp-donation-page.netlify.app/](https://a2rp-donation-page.netlify.app/)
-- Buy Me A Coffee: [https://buymeacoffee.com/a2rp](https://buymeacoffee.com/a2rp)
-- Patreon: [https://patreon.com/a2rp](https://patreon.com/a2rp)
-<!-- Project links -->
-
-## Links
-
-- Live: [https://a2rp.github.io/daily-focus-planner/](https://a2rp.github.io/daily-focus-planner/)
-- Repository: [https://github.com/a2rp/daily-focus-planner](https://github.com/a2rp/daily-focus-planner)
-- Portfolio: [https://www.ashishranjan.net/](https://www.ashishranjan.net/)
-- GitHub: [https://github.com/a2rp](https://github.com/a2rp)
-- CodePen: [https://codepen.io/ash1198](https://codepen.io/ash1198)
-- LinkedIn: [https://www.linkedin.com/in/aashishranjan](https://www.linkedin.com/in/aashishranjan)
-- Facebook: [https://www.facebook.com/theash.ashish/](https://www.facebook.com/theash.ashish/)
-- YouTube: [https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1](https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1)
-- Email: [ash.ranjan09@gmail.com](mailto:ash.ranjan09@gmail.com)
-
-## Support
-
-- Support: [https://a2rp-donation-page.netlify.app/](https://a2rp-donation-page.netlify.app/)
 - Buy Me a Coffee: [https://buymeacoffee.com/a2rp](https://buymeacoffee.com/a2rp)
-- Patreon: [https://www.patreon.com/a2rp](https://www.patreon.com/a2rp)
+- Patreon: [https://patreon.com/a2rp](https://patreon.com/a2rp)
