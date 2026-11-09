@@ -3,6 +3,7 @@
 const dateInput = document.getElementById("planDate");
 const datePretty = document.getElementById("datePretty");
 const timeBlocksContainer = document.getElementById("timeBlocks");
+const storageStatus = document.getElementById("storageStatus");
 
 // Tasks
 const taskListEl = document.getElementById("taskList");
@@ -36,6 +37,12 @@ function storageKeyFor(dateStr) {
     return `dailyFocusPlanner:${dateStr}`;
 }
 
+function showStorageIssue() {
+    if (!storageStatus) return;
+    storageStatus.hidden = false;
+    storageStatus.textContent = "The browser could not read or save this plan. Changes may not be saved after you close this page.";
+}
+
 function formatPretty(dateStr) {
     // outputs like "Sep 20, 2025"
     const d = new Date(`${dateStr}T00:00:00`);
@@ -62,40 +69,70 @@ function emptyPlan() {
 // Backward-compat
 function upgradePlanStructure(obj) {
     const base = emptyPlan();
-    const plan = obj && typeof obj === "object" ? obj : {};
-    let tasks = Array.isArray(plan.tasks)
+    const plan = obj && typeof obj === "object" && !Array.isArray(obj) ? obj : {};
+    const taskItems = Array.isArray(plan.tasks)
         ? plan.tasks
         : Array.isArray(plan.priorities)
-        ? plan.priorities.map((p) => ({ text: p.text || "", done: !!p.done }))
-        : base.tasks;
-    if (!tasks.length) tasks = base.tasks;
-    const mergedBlocks = { ...base.blocks, ...(plan.blocks || {}) };
-    return { tasks, blocks: mergedBlocks };
+          ? plan.priorities.map((item) => ({
+                text: typeof item?.text === "string" ? item.text : "",
+                done: item?.done === true,
+            }))
+          : base.tasks;
+    const tasks = taskItems
+        .filter((task) => task && typeof task === "object" && !Array.isArray(task))
+        .map((task) => ({
+            text: typeof task.text === "string" ? task.text.slice(0, 160) : "",
+            done: task.done === true,
+        }));
+    const savedBlocks = plan.blocks && typeof plan.blocks === "object" && !Array.isArray(plan.blocks)
+        ? plan.blocks
+        : {};
+    const blocks = { ...base.blocks };
+    Object.keys(blocks).forEach((key) => {
+        blocks[key] = typeof savedBlocks[key] === "string"
+            ? savedBlocks[key].slice(0, 500)
+            : "";
+    });
+    return { tasks: tasks.length ? tasks : base.tasks, blocks };
 }
 
 function loadPlan(dateStr) {
-    const raw = localStorage.getItem(storageKeyFor(dateStr));
+    let raw;
+    try {
+        raw = localStorage.getItem(storageKeyFor(dateStr));
+    } catch {
+        showStorageIssue();
+        return emptyPlan();
+    }
     if (!raw) return emptyPlan();
     try {
         return upgradePlanStructure(JSON.parse(raw));
     } catch {
+        showStorageIssue();
         return emptyPlan();
     }
 }
 function savePlan(dateStr, data) {
-    localStorage.setItem(storageKeyFor(dateStr), JSON.stringify(data));
+    try {
+        localStorage.setItem(storageKeyFor(dateStr), JSON.stringify(data));
+        return true;
+    } catch {
+        showStorageIssue();
+        return false;
+    }
 }
 
 // ---- Tasks UI ----
 function renderTasks(plan) {
-    taskListEl.innerHTML = "";
+    taskListEl.replaceChildren();
     plan.tasks.forEach((task, idx) => {
         const row = document.createElement("div");
         row.className = "task-row";
 
         const cb = document.createElement("input");
         cb.type = "checkbox";
-        cb.checked = !!task.done;
+        cb.checked = task.done === true;
+        cb.setAttribute("aria-label", `Task ${idx + 1}`);
         cb.addEventListener("change", () => {
             currentData.tasks[idx].done = cb.checked;
             savePlan(dateInput.value, currentData);
@@ -104,6 +141,7 @@ function renderTasks(plan) {
         const input = document.createElement("input");
         input.type = "text";
         input.value = task.text || "";
+        input.setAttribute("aria-label", `Task ${idx + 1}`);
         input.placeholder = `Task #${idx + 1}`;
         input.maxLength = 160;
         input.addEventListener("input", () => {
@@ -114,6 +152,7 @@ function renderTasks(plan) {
         const del = document.createElement("button");
         del.className = "del";
         del.title = "Remove task";
+        del.setAttribute("aria-label", `Remove task ${idx + 1}`);
         del.textContent = "×";
         del.addEventListener("click", () => {
             if (!confirm("Remove this task?")) return;
@@ -133,16 +172,18 @@ function renderTasks(plan) {
 
 // ---- Time Blocks UI (two per row) ----
 function renderTimeBlocks(plan) {
-    timeBlocksContainer.innerHTML = "";
+    timeBlocksContainer.replaceChildren();
     for (let h = dayStartHour; h < dayEndHour; h++) {
         const row = document.createElement("div");
         row.className = "time-row";
         [0, 30].forEach((m) => {
             const key = keyFor(h, m);
             const label = document.createElement("label");
-            label.textContent = key;
-
             const textarea = document.createElement("textarea");
+            textarea.id = `time-block-${key.replace(":", "-")}`;
+            textarea.maxLength = 500;
+            label.htmlFor = textarea.id;
+            label.textContent = key;
             textarea.value = plan.blocks[key] || "";
             textarea.placeholder = "What happens in this half hour?";
             textarea.addEventListener("input", () => {

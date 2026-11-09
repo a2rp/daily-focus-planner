@@ -1,6 +1,6 @@
 # Daily Focus Planner
 
-A focused static planner for managing daily tasks and half-hour time blocks. Data is saved in the browser by date, so the app works without a backend.
+A focused static planner for managing daily tasks and half-hour time blocks. Plans are saved by date when browser storage is available; if storage is blocked or full, the planner stays usable for the current page and displays a warning.
 
 ![Daily Focus Planner screenshot](screenshot.png)
 
