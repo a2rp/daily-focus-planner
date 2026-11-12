@@ -24,6 +24,7 @@ const dayStartHour = 6;
 const dayEndHour = 22;
 
 let currentData = null;
+let currentDate = "";
 
 // ---- Utils ----
 const pad = (n) => String(n).padStart(2, "0");
@@ -35,6 +36,15 @@ function todaysDateString() {
 }
 function storageKeyFor(dateStr) {
     return `dailyFocusPlanner:${dateStr}`;
+}
+
+function isValidDateString(dateStr) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+    const date = new Date(`${dateStr}T00:00:00`);
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const normalizedDate = `${date.getFullYear()}-${month}-${day}`;
+    return Number.isFinite(date.getTime()) && normalizedDate === dateStr;
 }
 
 function showStorageIssue() {
@@ -132,7 +142,7 @@ function renderTasks(plan) {
         const cb = document.createElement("input");
         cb.type = "checkbox";
         cb.checked = task.done === true;
-        cb.setAttribute("aria-label", `Task ${idx + 1}`);
+        cb.setAttribute("aria-label", `Mark task ${idx + 1} complete`);
         cb.addEventListener("change", () => {
             currentData.tasks[idx].done = cb.checked;
             savePlan(dateInput.value, currentData);
@@ -141,7 +151,7 @@ function renderTasks(plan) {
         const input = document.createElement("input");
         input.type = "text";
         input.value = task.text || "";
-        input.setAttribute("aria-label", `Task ${idx + 1}`);
+        input.setAttribute("aria-label", `Task ${idx + 1} description`);
         input.placeholder = `Task #${idx + 1}`;
         input.maxLength = 160;
         input.addEventListener("input", () => {
@@ -199,6 +209,11 @@ function renderTimeBlocks(plan) {
 }
 
 function loadDay(dateStr) {
+    if (!isValidDateString(dateStr)) {
+        dateInput.value = currentDate || todaysDateString();
+        return;
+    }
+    currentDate = dateStr;
     currentData = loadPlan(dateStr);
     renderTasks(currentData);
     renderTimeBlocks(currentData);
@@ -233,7 +248,7 @@ nextDayBtn.addEventListener("click", () => shiftDay(1));
 topBtn?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 function shiftDay(delta) {
-    const d = new Date(`${dateInput.value}T00:00:00`);
+    const d = new Date(`${currentDate}T00:00:00`);
     d.setDate(d.getDate() + delta);
     const y = d.getFullYear(),
         m = pad(d.getMonth() + 1),
